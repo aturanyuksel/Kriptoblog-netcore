@@ -1,0 +1,105 @@
+﻿@model List<HaberUser>
+@using Haber.COM;
+@{
+    ViewBag.Title = "Kullanıcı Listesi";
+    Layout = "~/Views/Shared/_LayoutDashboard.cshtml";
+}
+
+<h2>Kullanıcı Listesi</h2>
+
+<table class="table table-bordered table-condensed table-hover table-responsive table-striped">
+    <tbody>
+        <tr>
+            <td>@Html.LabelFor(x => x[0].Id)</td>
+            <td>@Html.LabelFor(x => x[0].Name)</td>
+            <td>@Html.LabelFor(x => x[0].SurName)</td>
+            <td>@Html.LabelFor(x => x[0].UserName)</td>
+            <td>@Html.LabelFor(x => x[0].Email)</td>
+            <td>@Html.LabelFor(x=>x[0].EklenmeTarihi)</td>
+            <td></td>
+            <td></td>
+        </tr>
+        @foreach (var kullanici in (List<HaberUser>)ViewBag.users)
+        {
+            <tr>
+                <td>@kullanici.Id</td>
+                <td>@kullanici.Name</td>
+                <td>@kullanici.SurName</td>
+                <td>@kullanici.UserName</td>
+                <td>@kullanici.Email</td>
+                <td>@kullanici.EklenmeTarihi</td>
+                <td>
+                    <div class="btn btn-default">
+                        @Html.ActionLink("Kullanıcı Bilgisi Düzenle", "KullaniciDuzenleme", new { id = kullanici.UserName })
+                    </div>
+                </td>
+                <td>
+                    <div class="btn btn-default">
+                        @Html.ActionLink("Kullanıcı Detay", "KullaniciDetay", new { id = kullanici.UserName })
+                </div>
+            </td>
+        </tr>
+        }
+    </tbody>
+</table>
+
+<h2> Rol Listesi</h2>
+
+<table class="table table-bordered table-condensed table-hover table-responsive table-striped">
+    <tbody>
+        @{  var result = (List<HaberRole>)ViewBag.roles;}
+        <tr>
+            <td>@Html.LabelFor(x => result[0].Id)</td>
+            <td>@Html.LabelFor(x => result[0].Name)</td>
+            <td>@Html.LabelFor(x => result[0].Description)</td>
+            <td>@Html.LabelFor(x => result[0].Users)</td>
+        </tr>
+        @foreach (var rol in (List<HaberRole>)ViewBag.roles)
+        {
+            <tr>
+                <td>@rol.Id</td>
+                <td>@rol.Name</td>
+                <td>@rol.Description</td>
+                <td>
+                    @if (rol.Users.Count >= 2)
+                    {
+                        var userIDs = rol.Users.ToList();
+                        var userID = userIDs[1].UserId;
+                        foreach (var user in rol.Users.Take(2))
+                        {
+                            var huser = UserInfo.kullaniciBilgiAl(user.UserId);
+
+                            if (user.UserId == userID)
+                            {
+                                if (rol.Users.Count == 2)
+                                {
+                                    @huser.UserName
+
+                                }
+                                else
+                                {
+                                    @huser.UserName<span>...</span>
+                                }
+                            }
+                            else
+                            {
+                                @huser.UserName<span>, </span>
+                            }
+                        }
+                    }
+                    else
+                    {
+                        foreach (var user in rol.Users)
+                        {
+                            var huser = UserInfo.kullaniciBilgiAl(user.UserId);
+                            @huser.UserName
+                        }
+                    }
+
+                </td>
+
+            </tr>
+
+        }
+    </tbody>
+</table>

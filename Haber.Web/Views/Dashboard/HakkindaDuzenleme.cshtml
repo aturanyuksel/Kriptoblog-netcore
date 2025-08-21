@@ -1,0 +1,52 @@
+﻿@model Hakkimizda
+@using Haber.COM;
+@{
+    ViewBag.Title = "Hakkında Duzenleme";
+    Layout = "~/Views/Shared/_LayoutDashboard.cshtml";
+}
+
+<h2>Hakkında Düzenleme</h2>
+
+<script src="~/Content/ckeditor/ckeditor/ckeditor.js"></script>
+
+
+@using (Html.BeginForm("HakkindaDuzenleme", "Dashboard", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    <table>
+        <tr>
+
+            <td>@Html.LabelFor(x => x.HakBaslik)</td>
+            <td>
+                <input type="text" name="hakBaslik" value="@Model.HakBaslik" />
+                <input type="hidden" name="hakID" value="@Model.HakID" />
+            </td>
+        </tr>
+        <tr>
+
+            <td>@Html.LabelFor(x => x.HakIcerik)</td>
+            <td>@Html.TextAreaFor(x=>x.HakIcerik)
+                <script>
+                    CKEDITOR.replace('HakIcerik', { htmlEncodeOutput: true });
+                </script>
+            </td>
+        </tr>
+        <tr>
+            <td>@Html.LabelFor(x=>x.HakAktiflik)</td>
+            <td>@Html.CheckBoxFor(x=>x.HakAktiflik,new { @checked = "checked" })</td>
+        </tr>
+        
+        <tr>
+            <td>@Html.LabelFor(x => x.HakEklenmeTarihi)</td>
+            <td>
+                @Html.TextBoxFor(x => x.HakEklenmeTarihi)
+            </td>
+
+        </tr>
+        <tr>
+            <td></td>
+            <td>
+                <input type="submit" name="btnHakDuzenle" value="Kaydet" />
+            </td>
+        </tr>
+    </table>
+}

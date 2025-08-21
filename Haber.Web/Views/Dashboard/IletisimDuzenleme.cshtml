@@ -1,0 +1,52 @@
+﻿@model Iletisim
+@using Haber.COM;
+    @{
+        ViewBag.Title = "İletisim Düzenleme";
+        Layout = "~/Views/Shared/_LayoutDashboard.cshtml";
+    }
+
+    <h2>İletişim Duzenleme</h2>
+
+<script src="~/Content/ckeditor/ckeditor/ckeditor.js"></script>
+
+@using (Html.BeginForm("IletisimDuzenleme", "Dashboard", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    <table>
+        <tr>
+
+            <td>@Html.LabelFor(x => x.IltAdSoyad)</td>
+            <td>
+                @Html.TextBoxFor(x=>x.IltAdSoyad)
+                @Html.HiddenFor(x=>x.IltGondermeTarihi)
+                @Html.HiddenFor(x => x.IletisimID)
+            </td>
+        </tr>
+        <tr>
+
+            <td>@Html.LabelFor(x => x.email)</td>
+            <td>@Html.TextBoxFor(x => x.email)</td>
+        </tr>
+        <tr>
+            <td>@Html.LabelFor(x => x.IltIcerik)</td>
+            <td>
+                @Html.TextAreaFor(x => x.IltIcerik)
+                <script>
+                    CKEDITOR.replace('IltIcerik', { htmlEncodeOutput: true });
+                </script>
+        </td>
+
+        </tr>
+
+        <tr>
+            <td>@Html.LabelFor(x => x.IltKonu)</td>
+            <td>@Html.TextBoxFor(x => x.IltKonu)</td>
+
+        </tr>
+        <tr>
+            <td></td>
+            <td>
+                <input type="submit" name="btnIltDuzenle" value="Kaydet" />
+            </td>
+        </tr>
+    </table>
+}

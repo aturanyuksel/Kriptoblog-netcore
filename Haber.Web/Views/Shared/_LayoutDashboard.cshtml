@@ -1,0 +1,365 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Yönetim Paneli | @ViewBag.Title</title>
+    <!-- Tell the browser to be responsive to screen width -->
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <!-- Bootstrap 3.3.5 -->
+    <link rel="stylesheet" href="~/Content/bootstrap/css/bootstrap.min.css">
+    <link href="~/Content/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="~/Content/bootstrap/css/font-awesome.min.css">
+    <!-- Ionicons -->
+    <link rel="stylesheet" href="~/Content/bootstrap/css/ionicons.min.css">
+    <!-- jvectormap -->
+    <link rel="stylesheet" href="~/Content/plugins/jvectormap/jquery-jvectormap-1.2.2.css">
+    <!-- Theme style -->
+    <link rel="stylesheet" href="~/Content/dist/css/AdminLTE.min.css">
+    <!-- AdminLTE Skins. Choose a skin from the css/skins
+         folder instead of downloading all of them to reduce the load. -->
+    <link rel="stylesheet" href="~/Content/dist/css/skins/_all-skins.min.css">
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="~/scripts/html5shiv.min.js"></script>
+        <script src="~/scripts/respond.min.js"></script>
+    <![endif]-->
+</head>
+<body class="hold-transition skin-blue sidebar-mini">
+
+    <div class="wrapper">
+
+        <header class="main-header">
+
+            <!-- Logo -->
+            <a href="#index2.html" class="logo">
+                <!-- mini logo for sidebar mini 50x50 pixels -->
+                <span class="logo-mini"><b> </b>LT</span>
+                <!-- logo for regular state and mobile devices -->
+                <span class="logo-lg"><b>Yönetim </b>Paneli</span>
+            </a>
+
+            <!-- Header Navbar: style can be found in header.less -->
+            <nav class="navbar navbar-static-top" role="navigation">
+                <!-- Sidebar toggle button-->
+                <a href="##" class="sidebar-toggle" data-toggle="offcanvas" role="button">
+                    <span class="sr-only">Toggle navigation</span>
+                </a>
+
+
+            </nav>
+        </header>
+        <!-- Left side column. contains the logo and sidebar -->
+        <aside class="main-sidebar">
+            <!-- sidebar: style can be found in sidebar.less -->
+            <section class="sidebar">
+                <!-- Sidebar user panel -->
+                <div class="user-panel">
+                    <div class="pull-left image" style="height:15px;">
+
+                    </div>
+                    <div class="pull-left info">
+                        @if (User.Identity.IsAuthenticated)
+                        {
+                            <p>@User.Identity.Name</p>
+                        }
+                        else
+                        {
+                            <p>Kullanıcı Adı</p>
+                        }
+                        <a href="##"><i class="fa fa-circle text-success"></i> Online</a>
+                    </div>
+                </div>
+                
+                <!-- sidebar menu: : style can be found in sidebar.less -->
+                <ul class="sidebar-menu">
+                    <li class="header">Navigasyon</li>
+                    <li class="@(ViewContext.RouteData.Values["Action"].ToString() == "Index" ? "active" : "") treeview">
+                        <a href="##">
+                            <i class="fa fa-dashboard"></i> <span>Yönetim</span> <i class="fa fa-angle-left pull-right"></i>
+                        </a>
+                        <ul class="treeview-menu">
+                            <li><a href="@Url.Action("Index","Home")"><i class="fa fa-circle-o"></i> Anasayfa</a></li>
+                            <li class="@(ViewContext.RouteData.Values["Action"].ToString() == "Index" ? "active" : "")"><a href="@Url.Action("Index","Dashboard")"><i class="fa fa-circle-o"></i> Yönetim Paneli</a></li>
+                        </ul>
+                    </li>
+                    <li class="@(ViewContext.RouteData.Values["Action"].ToString() == "HaberEkle" || ViewContext.RouteData.Values["Action"].ToString() == "HaberListele" || ViewContext.RouteData.Values["Action"].ToString() == "HaberDuzenle" ? "active" : "") treeview">
+                        <a href="##">
+                            <i class="fa fa-pie-chart"></i>
+                            <span>Haberler</span>
+                            <i class="fa fa-angle-left pull-right"></i>
+                        </a>
+                        <ul class="treeview-menu">
+                            <li class="@(ViewContext.RouteData.Values["Action"].ToString() == "HaberEkle" ? "active" : "")"><a href="~/Dashboard/HaberEkle"><i class="fa fa-circle-o"></i> Haber Ekle</a></li>
+                            <li class="@(ViewContext.RouteData.Values["Action"].ToString() == "HaberListele" ? "active" : "")"><a href="~/Dashboard/HaberListele"><i class="fa fa-circle-o"></i> Haber Listele</a></li>
+                            <li class="@(ViewContext.RouteData.Values["Action"].ToString() == "HaberDuzenle" ? "active" : "")"><a href="~/Dashboard/HaberDuzenle"><i class="fa fa-circle-o"></i> Haber Düzenle</a></li>
+                        </ul>
+                    </li>
+                    <li class="@(ViewContext.RouteData.Values["Action"].ToString() == "KategoriEkle" || ViewContext.RouteData.Values["Action"].ToString() == "KategoriListele" || ViewContext.RouteData.Values["Action"].ToString() == "KategoriDuzenle" || ViewContext.RouteData.Values["Action"].ToString() == "KategoriHaberleri" || ViewContext.RouteData.Values["Action"].ToString() == "KategoriHaberleriYeni" ? "active" : "") treeview">
+                        <a href="##">
+                            <i class="fa fa-laptop"></i>
+                            <span>Kategoriler</span>
+                            <i class="fa fa-angle-left pull-right"></i>
+                        </a>
+                        <ul class="treeview-menu">
+                            <li class="@(ViewContext.RouteData.Values["Action"].ToString() == "KategoriEkle" ? "active" : "")"><a href="~/Dashboard/KategoriEkle"><i class="fa fa-circle-o"></i> Kategori Ekle</a></li>
+                            <li class="@(ViewContext.RouteData.Values["Action"].ToString() == "KategoriListele" ? "active" : "")"><a href="~/Dashboard/KategoriListele"><i class="fa fa-circle-o"></i> Kategori Listele</a></li>
+                            <li class="@(ViewContext.RouteData.Values["Action"].ToString() == "KategoriDuzenle" ? "active" : "")"><a href="~/Dashboard/KategoriDuzenle"><i class="fa fa-circle-o"></i> Kategori Düzenle</a></li>
+                            <li class="@(ViewContext.RouteData.Values["Action"].ToString() == "KategoriHaberleri" ? "active" : "")"><a href="~/Dashboard/KategoriHaberleri"><i class="fa fa-circle-o"></i> Kategori Haberleri</a></li>
+                            <li class="@(ViewContext.RouteData.Values["Action"].ToString() == "KategoriHaberleriYeni" ? "active" : "")"><a href="~/Dashboard/KategoriHaberleriYeni"><i class="fa fa-circle-o"></i> Kategori Haberleri2</a></li>
+                        </ul>
+                    </li>
+                    <li class="@(ViewContext.RouteData.Values["Action"].ToString() == "YorumEkle" || ViewContext.RouteData.Values["Action"].ToString() == "YorumListele" || ViewContext.RouteData.Values["Action"].ToString() == "YorumDuzenle" ? "active" : "") treeview">
+                        <a href="##">
+                            <i class="fa fa-edit"></i>
+                            <span>Yorumlar</span>
+                            <i class="fa fa-angle-left pull-right"></i>
+                        </a>
+                        <ul class="treeview-menu">
+                            <li class="@(ViewContext.RouteData.Values["Action"].ToString() == "YorumEkle" ? "active" : "")"><a href="~/Dashboard/YorumEkle"><i class="fa fa-circle-o"></i> Yorum Ekle</a></li>
+                            <li class="@(ViewContext.RouteData.Values["Action"].ToString() == "YorumListele" ? "active" : "")"><a href="~/Dashboard/YorumListele"><i class="fa fa-circle-o"></i> Yorum Listele</a></li>
+                            <li class="@(ViewContext.RouteData.Values["Action"].ToString() == "YorumDuzenle" ? "active" : "")"><a href="~/Dashboard/YorumDuzenle"><i class="fa fa-circle-o"></i> Yorum Düzenle</a></li>
+
+
+                        </ul>
+                    </li>
+                    <li class="@(ViewContext.RouteData.Values["Action"].ToString() == "YazarEkle" || ViewContext.RouteData.Values["Action"].ToString() == "YazarListele" || ViewContext.RouteData.Values["Action"].ToString() == "YazarDuzenle" || ViewContext.RouteData.Values["Action"].ToString() == "YazarHaberleri" ? "active" : "") treeview">
+                        <a href="##">
+                            <i class="fa fa-table"></i>
+                            <span>Yazarlar</span>
+                            <i class="fa fa-angle-left pull-right"></i>
+                        </a>
+                        <ul class="treeview-menu">
+                            <li class="@(ViewContext.RouteData.Values["Action"].ToString() == "YazarEkle" ? "active" : "")"><a href="~/Dashboard/YazarEkle"><i class="fa fa-circle-o"></i> Yazar Ekle</a></li>
+                            <li class="@(ViewContext.RouteData.Values["Action"].ToString() == "YazarListele" ? "active" : "")"><a href="~/Dashboard/YazarListele"><i class="fa fa-circle-o"></i> Yazar Listele</a></li>
+                            <li class="@(ViewContext.RouteData.Values["Action"].ToString() == "YazarDuzenle" ? "active" : "")"><a href="~/Dashboard/YazarDuzenle"><i class="fa fa-circle-o"></i> Yazar Düzenle</a></li>
+                            <li class="@(ViewContext.RouteData.Values["Action"].ToString() == "YazarHaberleri" ? "active" : "")"><a href="~/Dashboard/YazarHaberleri"><i class="fa fa-circle-o"></i> Yazar Haberleri</a></li>
+                        </ul>
+                    </li>
+
+                    <li class="@(ViewContext.RouteData.Values["Action"].ToString() == "EtiketEkle" || ViewContext.RouteData.Values["Action"].ToString() == "EtiketListele" || ViewContext.RouteData.Values["Action"].ToString() == "EtiketDuzenle" || ViewContext.RouteData.Values["Action"].ToString() == "EtiketHaberleri" ? "active" : "") treeview">
+                        <a href="##">
+                            <i class="fa fa-table"></i>
+                            <span>Etiketler</span>
+                            <i class="fa fa-angle-left pull-right"></i>
+                        </a>
+                        <ul class="treeview-menu">
+                            <li class="@(ViewContext.RouteData.Values["Action"].ToString() == "EtiketEkle" ? "active" : "")"><a href="~/Dashboard/EtiketEkle"><i class="fa fa-circle-o"></i> Etiket Ekle</a></li>
+                            <li class="@(ViewContext.RouteData.Values["Action"].ToString() == "EtiketListele" ? "active" : "")"><a href="~/Dashboard/EtiketListele"><i class="fa fa-circle-o"></i> Etiket Listele</a></li>
+                            <li class="@(ViewContext.RouteData.Values["Action"].ToString() == "EtiketDuzenle" ? "active" : "")"><a href="~/Dashboard/EtiketDuzenle"><i class="fa fa-circle-o"></i> Etiket Düzenle</a></li>
+                            <li class="@(ViewContext.RouteData.Values["Action"].ToString() == "EtiketHaberleri" ? "active" : "")"><a href="~/Dashboard/EtiketHaberleri"><i class="fa fa-circle-o"></i> Etiket Haberleri</a></li>
+                        </ul>
+                    </li>
+
+                    <li class="@(ViewContext.RouteData.Values["Action"].ToString() == "HakkindaEkle" || ViewContext.RouteData.Values["Action"].ToString() == "HakkindaListele" ? "active" : "") treeview">
+                        <a href="##">
+                            <i class="fa fa-table"></i>
+                            <span>Hakkımızda</span>
+                            <i class="fa fa-angle-left pull-right"></i>
+                        </a>
+                        <ul class="treeview-menu">
+                            <li class="@(ViewContext.RouteData.Values["Action"].ToString() == "HakkindaEkle" ? "active" : "")"><a href="~/Dashboard/HakkindaEkle"><i class="fa fa-circle-o"></i> Hakkımızda Ekle</a></li>
+                            <li class="@(ViewContext.RouteData.Values["Action"].ToString() == "HakkindaListele" ? "active" : "")"><a href="~/Dashboard/HakkindaListele"><i class="fa fa-circle-o"></i> Hakkımızda Listele</a></li>
+                        </ul>
+                    </li>
+
+                    <li class="@(ViewContext.RouteData.Values["Action"].ToString() == "IletisimEkle" || ViewContext.RouteData.Values["Action"].ToString() == "IletisimListele" ? "active" : "") treeview">
+                        <a href="##">
+                            <i class="fa fa-table"></i>
+                            <span>İletişim</span>
+                            <i class="fa fa-angle-left pull-right"></i>
+                        </a>
+                        <ul class="treeview-menu">
+                            <li class="@(ViewContext.RouteData.Values["Action"].ToString() == "IletisimEkle" ? "active" : "")"><a href="~/Dashboard/IletisimEkle"><i class="fa fa-circle-o"></i> İletişim Ekle</a></li>
+                            <li class="@(ViewContext.RouteData.Values["Action"].ToString() == "IletisimListele" ? "active" : "")"><a href="~/Dashboard/IletisimListele"><i class="fa fa-circle-o"></i> İletişim Listele</a></li>
+                        </ul>
+                    </li>
+                    <li class="@(ViewContext.RouteData.Values["Action"].ToString() == "KullaniciListesi" || ViewContext.RouteData.Values["Action"].ToString() == "KullaniciEkle" ? "active" : "") treeview">
+                        <a href="##">
+                            <i class="fa fa-table"></i>
+                            <span>Kullanıcı Yönetimi</span>
+                            <i class="fa fa-angle-left pull-right"></i>
+                        </a>
+                        <ul class="treeview-menu">
+                            <li class="@(ViewContext.RouteData.Values["Action"].ToString() == "KullaniciListesi" ? "active" : "")"><a href="~/Dashboard/KullaniciListesi"><i class="fa fa-circle-o"></i> Kullanıcı Listesi</a></li>
+                            <li class="@(ViewContext.RouteData.Values["Action"].ToString() == "KullaniciEkle" ? "active" : "")"><a href="~/Dashboard/KullaniciEkle"><i class="fa fa-circle-o"></i> Kullanıcı Ekle</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </section>
+            <!-- /.sidebar -->
+        </aside>
+
+        <!-- Content Wrapper. Contains page content -->
+        <div class="content-wrapper">
+            <!-- Content Header (Page header) -->
+            <section class="content-header">
+                <h1>
+                    Dashboard
+                    <small>Version 2.0</small>
+                </h1>
+                <ol class="breadcrumb">
+                    <li><a href="#"><i class="fa fa-dashboard"></i> ANASAYFA</a></li>
+                    <li class="active">Yönetim Paneli</li>
+                </ol>
+            </section>
+
+            <!-- Main content -->
+            <section class="content">
+                <!-- Info boxes -->
+                <div class="row">
+                    <div class="col-md-3 col-sm-6 col-xs-12">
+                        <div class="info-box">
+                            <span class="info-box-icon bg-aqua"><i class="ion ion-ios-bookmarks"></i></span>
+                            <div class="info-box-content">
+                                <span class="info-box-text">HABERLER</span>
+                                <span class="info-box-number">
+                                    @{  int a = SayiToplam.haberSayisi();
+                                        string deger = a.ToString();
+                                    }
+                                    @Html.ActionLink(deger, "HaberListele", "Dashboard")
+                                </span>
+                            </div><!-- /.info-box-content -->
+                        </div><!-- /.info-box -->
+                    </div><!-- /.col -->
+                    <div class="col-md-3 col-sm-6 col-xs-12">
+                        <div class="info-box">
+                            <span class="info-box-icon bg-red"><i class="ion ion-android-drafts"></i></span>
+                            <div class="info-box-content">
+                                <span class="info-box-text">YAZARLAR</span>
+                                <span class="info-box-number">
+                                    @{  int b = SayiToplam.yazarSayisi();
+                                        string degerb = b.ToString();
+                                    }
+                                    @Html.ActionLink(degerb, "YazarListele", "Dashboard")
+                                </span>
+                            </div><!-- /.info-box-content -->
+                        </div><!-- /.info-box -->
+                    </div><!-- /.col -->
+                    <!-- fix for small devices only -->
+                    <div class="clearfix visible-sm-block"></div>
+
+                    <div class="col-md-3 col-sm-6 col-xs-12">
+                        <div class="info-box">
+                            <span class="info-box-icon bg-green"><i class="ion ion-clipboard"></i></span>
+                            <div class="info-box-content">
+                                <span class="info-box-text">KATEGORİLER</span>
+                                <span class="info-box-number">
+                                    @{  int c = SayiToplam.kategoriSayisi();
+                                        string degerc = c.ToString();
+                                    }
+                                    @Html.ActionLink(degerc, "KategoriListele", "Dashboard")
+                                </span>
+                            </div><!-- /.info-box-content -->
+                        </div><!-- /.info-box -->
+                    </div><!-- /.col -->
+                    <div class="col-md-3 col-sm-6 col-xs-12">
+                        <div class="info-box">
+                            <span class="info-box-icon bg-yellow"><i class="ion ion-chatbox"></i></span>
+                            <div class="info-box-content">
+                                <span class="info-box-text">YORUMLAR</span>
+                                <span class="info-box-number">
+                                    @{  int d = SayiToplam.yorumSayisi();
+                                        string degerd = d.ToString();
+                                    }
+                                    @Html.ActionLink(degerd, "YorumListele", "Dashboard")
+                                </span>
+                            </div><!-- /.info-box-content -->
+                        </div><!-- /.info-box -->
+                    </div><!-- /.col -->
+
+                    <div class="clearfix visible-sm-block"></div>
+                    <div class="col-md-6 col-sm-6 col-xs-12">
+                        <div class="info-box">
+                            <span class="info-box-icon bg-red"><i class="ion ion-clipboard"></i></span>
+                            <div class="info-box-content">
+                                <span class="info-box-text">ETİKETLER</span>
+                                <span class="info-box-number">
+                                    @{  int e = SayiToplam.etiketSayisi();
+                                        string degere = e.ToString();
+                                    }
+                                    @Html.ActionLink(degere, "EtiketListele", "Dashboard")
+                                </span>
+                            </div><!-- /.info-box-content -->
+                        </div><!-- /.info-box -->
+                    </div><!-- /.col -->
+                    <div class="col-md-6 col-sm-6 col-xs-12">
+                        <div class="info-box">
+                            <span class="info-box-icon bg-red"><i class="ion ion-person-stalker"></i></span>
+                            <div class="info-box-content">
+                                <span class="info-box-text">KULLANICILAR</span>
+                                <span class="info-box-number">
+                                    @{  int f = SayiToplam.kullaniciSayisi();
+                                        string degerf = f.ToString();
+                                    }
+                                    @Html.ActionLink(degerf, "KullaniciListesi", "Dashboard")
+                                </span>
+                            </div><!-- /.info-box-content -->
+                        </div><!-- /.info-box -->
+                    </div><!-- /.col -->
+                </div><!-- /.row -->
+                <div class="row">
+                    <div class="col-md-12">
+                    </div><!-- /.col -->
+                    <div>
+                        @RenderBody()
+                    </div>
+                </div><!-- /.row -->
+                <!-- Main row -->
+                <div class="row">
+                    <!-- Left col -->
+                    <div class="col-md-8">
+                        <!-- MAP & BOX PANE -->
+
+                    </div><!-- /.col -->
+
+                    <div class="col-md-4">
+                        <!-- Info Boxes Style 2 -->
+
+
+                    </div><!-- /.col -->
+                </div><!-- /.row -->
+            </section><!-- /.content -->
+        </div><!-- /.content-wrapper -->
+
+        <footer class="main-footer">
+            <div class="pull-right hidden-xs">
+                <b>Version</b> 2.3.0
+            </div>
+            <strong>Telif Hakkı &copy; @DateTime.Now.Year <a href="http://KriptoBlog.Net">KriptoBlog.Net</a>.</strong> Tüm hakları saklıdır.
+        </footer>
+
+
+        <!-- Add the sidebar's background. This div must be placed
+             immediately after the control sidebar -->
+        @*<div class="control-sidebar-bg"></div>*@
+
+    </div><!-- ./wrapper -->
+    <!-- jQuery 2.1.4 -->
+    <script src="~/Content/plugins/jQuery/jQuery-2.1.4.min.js"></script>
+    <script src="~/Content/~/Content/plugins/jQuery/jQuery-2.1.4.min.js"></script>
+    <!-- Bootstrap 3.3.5 -->
+    <script src="~/Content/bootstrap/js/bootstrap.min.js"></script>
+    <!-- FastClick -->
+    <script src="~/Content/plugins/fastclick/fastclick.min.js"></script>
+    <!-- AdminLTE App -->
+    <script src="~/Content/dist/js/app.min.js"></script>
+    <!-- Sparkline -->
+    <script src="~/Content/plugins/sparkline/jquery.sparkline.min.js"></script>
+    <!-- jvectormap -->
+    <script src="~/Content/plugins/jvectormap/jquery-jvectormap-1.2.2.min.js"></script>
+    <script src="~/Content/plugins/jvectormap/jquery-jvectormap-world-mill-en.js"></script>
+    <!-- SlimScroll 1.3.0 -->
+    <script src="~/Content/plugins/slimScroll/jquery.slimscroll.min.js"></script>
+    <!-- ChartJS 1.0.1 -->
+    <script src="~/Content/plugins/chartjs/Chart.min.js"></script>
+    <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
+    <script src="~/Content/dist/js/pages/dashboard2.js"></script>
+    <!-- AdminLTE for demo purposes -->
+    <script src="~/Content/ckeditor/ckeditor/ckeditor.js"></script>
+    <script src="~/Content/dist/js/demo.js"></script>
+</body>
+</html>

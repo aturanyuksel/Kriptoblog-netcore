@@ -1,0 +1,172 @@
+﻿@model HaberCl
+@using Haber.COM;
+@{ ViewBag.Title = "Haber Düzenleme";
+                Layout = "~/Views/Shared/_LayoutDashboard.cshtml"; }
+
+<h2>Haber Düzenleme</h2>
+
+<script src="~/Content/ckeditor/ckeditor/ckeditor.js"></script>
+@Html.ValidationSummary()
+@using (Html.BeginForm("HaberDuzenleme", "Dashboard", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+@Html.AntiForgeryToken()
+<table>
+    <tr>
+
+        <td>@Html.LabelFor(x => x.HaberBaslik)</td>
+        <td>
+            <input type="text" name="haberBaslik" value="@Model.HaberBaslik" />
+            <input type="hidden" name="haberID" value="@Model.HaberID" />
+        </td>
+    </tr>
+    <tr>
+
+        <td>@Html.LabelFor(x => x.HaberIcerik)</td>
+        <td>
+            @Html.TextAreaFor(x => x.HaberIcerik)
+            <script>
+                CKEDITOR.replace('HaberIcerik', { htmlEncodeOutput: true });
+            </script>
+        </td>
+    </tr>
+
+    <tr>
+
+        @if (ViewBag.test2 == "HttpPost")
+        {
+
+        }
+        else
+        {
+<td>@Html.LabelFor(x => x.HaberKategori.KategoriAdi)</td>
+                    <td>
+                        <select name="kategoriID">
+                            @foreach (var kategori in (List<Kategori>)ViewBag.kategoriler)
+                            {
+                                if (Model.HaberKategori.KategoriID == kategori.KategoriID)
+                                {
+        <option value="@kategori.KategoriID" selected="selected">@kategori.KategoriAdi</option>
+ }
+    else
+    {
+<option value="@kategori.KategoriID">@kategori.KategoriAdi</option>
+}
+}
+                        </select>
+                    </td>
+}
+    </tr>
+    <tr>
+        <td>@Html.LabelFor(x => x.HaberGirisTarihi)</td>
+        <td>
+            @Html.TextBoxFor(x => x.HaberGirisTarihi)
+        </td>
+
+    </tr>
+    <tr>
+        @if (Model.HaberEtiketleri == null || Model.HaberEtiketleri.Count() == 0)
+        {
+
+<td>@Html.LabelFor(x => x.HaberEtiketleri)</td>
+                    <td><input type="text" name="haberEtiketi" value="" /></td>
+ }
+                else
+                {
+<td>@Html.LabelFor(x => x.HaberEtiketleri[0].EtiketAdi)</td>
+                    <td>
+                        @Html.TextBoxFor(x => x.HaberEtiketleri[0].EtiketAdi)
+                        <input type="hidden" name="haberEtiketi" value="@Model.HaberEtiketleri[0].EtiketAdi" />
+                    </td>
+}
+    </tr>
+    <tr>
+        @if (ViewBag.test2 == "HttpPost")
+        {
+
+        }
+        else
+        {
+<td>
+    @Html.LabelFor(x => x.HaberYazari.YazarAdSoyad)
+</td>
+                    <td>
+                        <select name="yazarID">
+                            @foreach (var yazar in (List<Yazar>)ViewBag.yazarlar)
+                            {
+                                if (Model.HaberYazari.YazarID == yazar.YazarID)
+                                {
+        <option selected="selected" value="@yazar.YazarID">@yazar.YazarAdSoyad</option>
+ }
+    else
+    {
+<option value="@yazar.YazarID">@yazar.YazarAdSoyad</option>
+}
+}
+                        </select>
+                    </td>
+}
+    </tr>
+    <tr>
+
+        <td>@Html.LabelFor(x => x.HaberDurumu)</td>
+        <td>
+            @Html.CheckBoxFor(x => x.HaberDurumu, new { @checked = "checked" })
+        </td>
+    </tr>
+    <tr>
+        <td>@Html.LabelFor(x => x.HaberOkunmaSayisi)</td>
+        <td>
+            @Html.TextBoxFor(x => x.HaberOkunmaSayisi, new { @readonly = "readonly" })
+        </td>
+    </tr>
+
+    <tr>
+        <td></td>
+        <td>
+            <input type="submit" name="btnHaberDuzenle" value="Kaydet" />
+        </td>
+    </tr>
+    <div class="wrapper wrapper-content animated fadeInRight">
+
+        <div class="ibox float-e-margins">
+
+            <div class="ibox-title">
+                <h5>HABERE EKLENMİŞ RESİMLER</h5>
+                <div class="ibox-tools">
+                    <button class="btn btn-white fullscreen-link"><i class="fa fa-expand"></i></button>
+                </div>
+            </div>
+
+            <div class="ibox-content">
+                <table class="table table-striped table-bordered table-hover dataTables-example">
+                    <thead>
+                        <tr>
+                            <th>Dosya Kodu</th>
+                            <th>Dosya Adı</th>
+                            <th>Eklenme Tarihi</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @{ foreach (var dosya in Model.HaberResimleri)
+                            {
+            <tr class="gradeA">
+                <td>@dosya.ResimID</td>
+                <td>@dosya.ResimAdi</td>
+
+                <td class="col-sm-2">
+                    @Html.ActionLink("DOSYAYI SİL", "ResimSil", new { id = dosya.ResimID }, new { @class = "btn btn-danger btn-sm" })
+
+                </td>
+            </tr>
+ } }
+
+                    </tbody>
+                    <tfoot>
+
+                    </tfoot>
+                </table>
+            </div>
+        </div>
+    </div>
+</table>
+                                }

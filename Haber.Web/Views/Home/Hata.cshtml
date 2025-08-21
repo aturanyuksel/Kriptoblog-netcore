@@ -1,0 +1,110 @@
+﻿@using Haber.COM
+@{ ViewBag.Title = "Hata";
+                Layout = "~/Views/Shared/_Layout.cshtml"; }
+
+@section HataSayfa{
+    <h4>Aradığınız kelime arama sonuçlarında bulunamamıştır.</h4>
+}
+
+
+
+@section sonHaberlerkucuk{
+    <div class="latest_newsarea">
+        <span>Son Haberler</span>
+        <ul id="ticker01" class="news_sticker">
+            @foreach (var haber in (List<HaberCl>)ViewBag.haberSonList)
+            {
+                if (haber.HaberResimleri == null || haber.HaberResimleri.Count == 0)
+                {
+<li><a href="~/Home/HaberDetay/@haber.HaberID"><img src="" alt="">@haber.HaberBaslik</a></li> }
+                    else
+                    {
+                        if (haber.HaberResimleri.Count > 0)
+                        {
+
+<li><a href="~/Home/HaberDetay/@haber.HaberID"><img src="~/HaberResimler/Galeri/@haber.HaberResimleri[0].ResimAdi" alt="">@haber.HaberBaslik</a></li>}
+                    }
+
+
+                }
+
+
+
+        </ul>
+
+    </div>
+}
+
+@section EnCokOkunanlar{
+    <div class="single_sidebar">
+        <h2><span>En Çok Okunanlar</span></h2>
+        <ul class="spost_nav">
+            @{ foreach (var haber in (List<HaberCl>)ViewBag.enCokOkunanlarListesi)
+                                {
+                                    if (haber.HaberResimleri == null || haber.HaberResimleri.Count == 0)
+                                    {
+                <li>
+                    <div class="media wow fadeInDown">
+                        <a href="#" class="media-left">
+                            <img alt="Resim yok" src="">
+                        </a>
+                        <div class="media-body">
+                            <a href="~/Home/HaberDetay/@haber.HaberID" class="catg_title">@haber.HaberBaslik</a>
+                        </div>
+                    </div>
+                </li> }
+                                    else
+                                    {
+                <li>
+                    <div class="media wow fadeInDown">
+                        <a href="~/HaberResimler/Galeri/@haber.HaberResimleri[0].ResimAdi" class="media-left">
+                            <img alt="img" src="~/HaberResimler/Galeri/@haber.HaberResimleri[0].ResimAdi">
+                        </a>
+                        <div class="media-body">
+                            <a href="~/Home/HaberDetay/@haber.HaberID" class="catg_title">@haber.HaberBaslik</a>
+                        </div>
+                    </div>
+                </li> }
+                                } }
+
+        </ul>
+    </div>
+
+}
+
+@section FooterEtiketleri{
+
+    @{ foreach (var etiket in (IEnumerable<EtiketSonuc>)ViewBag.etiketResult2)
+                        {
+                            int a = etiket.EticketSonucSayisi;
+                            string buyukluk = "";
+                            if (a == 1)
+                            {
+                                buyukluk = "cokdusuk";
+                            }
+                            else if (a >= 2 && a <= 4)
+                            {
+                                buyukluk = "dusuk";
+                            }
+                            else if (a > 4 && a <= 7)
+                            {
+                                buyukluk = "orta";
+                            }
+                            else if (a > 7 && a <= 10)
+                            {
+                                buyukluk = "buyuk";
+                            }
+                            else
+                            {
+                                buyukluk = "cokbuyuk";
+                            }
+                            switch (buyukluk)
+                            {
+
+                                case "cokdusuk":
+        <li style="font-size:16px; display:inline">#@etiket.EtiketSonucAdi</li> break;
+}
+} }
+
+
+}

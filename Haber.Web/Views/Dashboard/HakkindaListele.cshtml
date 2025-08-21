@@ -1,0 +1,62 @@
+﻿@model List<Hakkimizda>
+@using Haber.COM;
+@{
+    ViewBag.Title = "Hakkında Listeleme Sayfası";
+    Layout = "~/Views/Shared/_LayoutDashboard.cshtml";
+}
+
+<h2>Hakkında Listeleme Sayfası</h2>
+
+
+<div class="btn btn-default" @Html.ActionLink("Yeni Kayıt Ekle", "HakkindaEkle")</div>
+
+<h2 class="text-info">Hakkında Listesi</h2>
+
+
+<table class="table table-bordered table-condensed table-hover table-responsive table-striped">
+    <thead>
+        <tr>
+            <td>@Html.LabelFor(x => x[0].HakID)</td>
+            <td>@Html.LabelFor(x => x[0].HakBaslik)</td>
+            <td>@Html.LabelFor(x => x[0].HakIcerik)</td>
+            <td>@Html.LabelFor(x => x[0].HakAktiflik)</td>
+            <td>@Html.LabelFor(x => x[0].HakEklenmeTarihi)</td>
+            <td></td>
+        </tr>
+    </thead>
+    <tbody>
+
+        @foreach (var hakkinda in Model)
+            {
+            <tr>
+                <td>@Html.ActionLink(hakkinda.HakID.ToString(), "HakkindaDuzenleme", new { id = hakkinda.HakID })</td>
+                <td>@hakkinda.HakBaslik</td>
+                <td>
+                    @Html.Raw(hakkinda.HakIcerik)
+                </td>
+                <td>
+                    @if (hakkinda.HakAktiflik)
+
+                    {
+                        <input type="checkbox" name="chkHakAktif" checked="checked" />
+                    }
+                    else
+                    {
+                        <input type="checkbox" name="chkHakAktif" />
+                    }
+                </td>
+                <td>@hakkinda.HakEklenmeTarihi</td>
+                <td>
+                    <div class="btn btn-default">
+                        @Html.ActionLink("Düzenle", "HakkindaDuzenleme", new { id = hakkinda.HakID })
+                    </div>
+                </td>
+                <td>
+                    <div class="btn btn-default">
+                        @Html.ActionLink("Sil", "HakkindaSil", new { id = hakkinda.HakID })
+                    </div>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

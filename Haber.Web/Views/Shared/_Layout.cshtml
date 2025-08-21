@@ -1,0 +1,313 @@
+﻿
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta charset="utf-8" />
+
+    <title>@ViewBag.Title - KriptoBlog.Net</title>
+
+    <script src="~/Scripts/modernizr-2.6.2.js"></script>
+    <script src="~/Content/ckeditor/ckeditor/ckeditor.js"></script>
+    <style>
+        .media-left, .media-right, .media-body {
+            display: table-cell;
+            vertical-align: top;
+        }
+
+        .dsinline {
+            display: inline;
+        }
+    </style>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    @*<link href="~/Content/bootstrap.css" rel="stylesheet" />*@
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+    <!-- Bootstrap -->
+    @*<link href="~/Content/css/bootstrap.min.css" rel="stylesheet">*@
+    <!-- for fontawesome icon css file -->
+    <!-- for content animate css file -->
+    <link rel="stylesheet" href="~/Content/css/animate.css">
+    @*<link href="~/Content/css/font-awesome.css" rel="stylesheet" />*@
+    <link href="~/Content/css/font-awesome.min.css" rel="stylesheet" />
+    <!-- google fonts  -->
+    <link href='http://fonts.googleapis.com/css?family=Oswald' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Varela' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
+    <!-- for news ticker css file -->
+    <link href="~/Content/css/li-scroller.css" rel="stylesheet">
+    <!-- slick slider css file -->
+    <link href="~/Content/css/slick.css" rel="stylesheet">
+    <!-- for fancybox slider -->
+    <link href="~/Content/css/jquery.fancybox.css" rel="stylesheet">
+    <!-- website theme file -->
+    <!-- <link href="~/Content/css/theme-red.css" rel="stylesheet"> -->
+
+    <link href="~/Content/css/theme.css" rel="stylesheet">
+    <!-- main site css file -->
+    <link href="~/Content/css/style.css" rel="stylesheet" />
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+</head>
+<body>
+    
+
+    <a class="scrollToTop" href="#"><i class="fa fa-angle-up"></i></a>
+
+    <div class="container">
+        <!-- start header section -->
+        <header id="header">
+            <div class="row">
+                <div class="col-lg-12 col-md-12 col-sm-12">
+                    <div class="header_top">
+                        <div class="header_top_left">
+                            <ul class="top_nav">
+                                <li>@Html.ActionLink("Anasayfa", "Index", "Home")</li>
+                                <li>@Html.ActionLink("Hakkımızda", "Hakkimizda", "Home")</li>
+                                <li><a href="@Url.Action("Iletisim","Home")">İLETİŞİM</a></li>
+                                <li>@Html.ActionLink("YÖNETİM PANELİ", "Index", "Dashboard")</li>
+                            </ul>
+                        </div>
+                        <div class="header_top_right">
+                            <p>@DateTime.Now.ToShortDateString() - @DateTime.Now.ToShortTimeString()</p>
+                            <!-- Login -->
+                            @Html.Partial("_LayoutLogin");
+                            <!-- Login end-->
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="cryptohopper-web-widget" data-id="2"></div>
+        </header>
+    <!-- End header section -->
+        <header id="header">
+            <div class="col-lg-12 col-md-12 col-sm-12">
+            
+                    <div class="logo_area">
+                       
+                <a href="@Url.Action("Index","Home")" class="logo">
+                  <img src="~/Gallery/img/logo.png"  alt="logo">
+                </a> 
+                        <!-- for your text logo format -->
+                        @*<a href="@Url.Action("Index","Home")" class="logo">
+                            Kripto <span> Blog</span>
+                        </a>*@
+                    </div>
+
+               
+            </div>
+            </header>
+            <!-- start nav section -->
+            <section id="navArea">
+            <!-- Start navbar -->
+           
+            <ul class="nav justify-content-center">
+                @foreach (var kategori in (List<Haber.COM.Kategori>)ViewBag.kategoriler)
+                {
+            <li class="nav-item">
+                <a class="nav-link" href="~/Home/Kategori/@kategori.KategoriID"><i class="fa fa-btc yellow_bg"></i> @kategori.KategoriAdi.ToUpper()</a>
+            </li>}
+                
+            </ul>
+
+            </section>
+    <!-- End nav section -->
+
+
+            <section id="newsSection">
+                <div class="row">
+                    <div class="col-lg-12 col-md-12">
+                        <!-- start news sticker -->
+                        @RenderSection("Bannerlar", required: false)
+                        @RenderSection("Sosyal", required: false)
+                        @RenderSection("sonHaberlerkucuk", required: false)
+                        <!-- End news sticker -->
+                    </div>
+                </div>
+            </section>
+            <!-- start slider section -->
+            <section id="sliderSection">
+                <div class="row">
+                    @RenderSection("LogoHd", required: false)
+                    @RenderSection("slider", required: false)
+                    @RenderSection("SonGonderilen", required: false)
+
+                    <section id="contentSection">
+                        <div class="row">
+
+                            <div class="col-lg-8 col-md-8 col-sm-8">
+                                <div class="left_content">
+                                    @RenderSection("login", required: false)
+                                    @RenderSection("hakkimizda", required: false)
+                                    @RenderSection("iletisimForm", required: false)
+                                    @RenderSection("iletisimTamam", required: false)
+                                   
+
+                                    @RenderSection("Gundem", required: false)
+
+                                    <!-- start 2 style category design -->
+                                    <div class="fashion_technology_area">
+
+                                        @RenderSection("Etherium", required: false)
+
+                                        @RenderSection("BTC", required: false)
+
+                                    </div>
+
+                                    @RenderSection("Fotografcilik", required: false)
+
+                                    @RenderSection("Dunya", required: false)
+
+                                    @RenderSection("katHaberleri", required: false)
+                                    @RenderSection("HataSayfa", required: false)
+                                    @RenderSection("haberDetay", required: false)
+                                </div>
+                            </div>
+
+                            <div class="col-lg-4 col-md-4 col-sm-4">
+                                <aside class="right_content">
+
+                                    @RenderSection("EnCokOkunanlar", required: false)
+
+                                    @RenderSection("sidebar", required: false)
+                                </aside>
+                            </div>
+                        </div>
+                    </section>
+                    <!-- ==================End content body section=============== -->
+                </div> <!-- /.container -->
+
+
+                @RenderBody()
+
+            </section><!-- End slider section -->
+
+</div>
+
+    <div class="container body-content">
+
+        <hr />
+
+
+        <footer id="footer">
+            <div class="footer_top">
+                <div class="row">
+                    <div class="col-lg-4 col-md-4 col-sm-4">
+                        <div class="footer_widget wow fadeInRightBig">
+                            <h2>Sosyal Medya Kanalları</h2>
+
+                            <table margin="10px">
+                                <tr>
+                                    <td>
+
+                                        <a href="https://t.me/ravenanons" target="_blank">
+                                            <img src="~/Gallery/img/Telegram.png" style="width:60px;height: 60px" />
+
+                                        </a>
+                                        <li style="font-size:16px; display:inline">Analiz Grup</li>
+                                    </td>
+                                    <td>
+
+                                        <a href="https://vm.tiktok.com/ZSJAA8umx/ " target="_blank">
+                                            <img src="~/Gallery/img/Tiktok.png" style="width:60px;height: 60px" />
+
+                                        </a>
+                                        <li style="font-size:16px; display:inline">Tiktok</li>
+                                    </td>
+                                    
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <a href="https://t.me/kriptoblognet" target="_blank">
+                                            <img src="~/Gallery/img/Telegram.png" style="width:60px;height: 60px" />
+
+                                        </a>
+                                        <li style="font-size:16px; display:inline">Haber Grup</li>
+                                    </td>
+                                    <td>
+
+                                        <a href="https://twitter.com/CryptoRaven4" target="_blank">
+                                            <img src="~/Gallery/img/twitter.png" style="width:60px;height: 60px" />
+
+                                        </a>
+                                        <li style="font-size:16px; display:inline">Twitter</li>
+                                    </td>
+                                    
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <a href="https://www.youtube.com/channel/UCf3_oh6PWTCjMkcguZ1sVSg" target="_blank">
+                                            <img src="~/Gallery/img/youtube.png" style="width:60px;height: 60px" />
+
+                                        </a>
+                                        <li style="font-size:16px; display:inline">Youtube</li>
+
+                                    </td>
+
+                                </tr>
+                            </table>
+
+
+
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-4 col-sm-4">
+                        <div class="footer_widget wow fadeInDown" style="width:80%">
+                            <h2>ETİKET HAVUZU</h2>
+                            <ul class="tag_nav">
+
+                                @RenderSection("FooterEtiketleri",required:false)
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-4 col-sm-4">
+                        <div class="footer_widget wow fadeInRightBig">
+                            <h2>İLETİŞİM</h2>
+                            <b>Mert SOLAK</b>
+                            <a href="https://t.me/Olricx" target="_blank"><img src="~/Gallery/img/9be0474fed90ed12ad04d4b5aa63e174.png" style="width:100px;height: 50px" /></a>
+                            <hr />
+                            <b>Serat ÇETİN</b>
+                            <a href="https://t.me/kuzgun_26" target="_blank"><img src="~/Gallery/img/9be0474fed90ed12ad04d4b5aa63e174.png" style="width:100px;height: 50px" /></a>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="footer_bottom">
+                <p class="copyright">
+                    Tüm Hakları Saklıdır <a href="@Url.Action("Index","Home")">KriptoBlog.net</a>
+                </p>
+            </div>
+        </footer>
+    </div>
+
+    <!-- jQuery Library -->
+    <script src="~/scripts/js/jquery.min.js"></script>
+
+    <script src="~/scripts/js/bootstrap.min.js"></script>
+
+    <script src="~/scripts/js/jquery.li-scroller.1.0.js"></script>
+    <!-- for news slider -->
+    <script src="~/scripts/js/jquery.newsTicker.min.js"></script>
+    <!-- for fancybox slider -->
+    <script src="~/scripts/js/jquery.fancybox.pack.js"></script>
+    <!-- custom js file include -->
+    <script src="~/scripts/js/custom.js"></script>
+    <!-- For content animatin  -->
+    <script src="~/scripts/js/wow.min.js"></script>
+    <!-- bootstrap js file -->
+    <!-- slick slider js file -->
+    <script src="~/scripts/js/slick.min.js"></script>
+
+    <script src="https://www.cryptohopper.com/widgets/js/script"></script>
+</body>
+</html>

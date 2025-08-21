@@ -1,0 +1,40 @@
+﻿@model Haber.COM.Hakkimizda
+@using Haber.COM;
+@{
+    ViewBag.Title = "Hakkında Ekle";
+    Layout = "~/Views/Shared/_LayoutDashboard.cshtml";
+}
+
+<h2>Hakkında Ekle</h2>
+
+<script src="~/Content/ckeditor/ckeditor/ckeditor.js"></script>
+
+@using (Html.BeginForm("HakkindaEkle", "Dashboard", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    <table>
+        <thead>
+            <tr>
+
+                <td>@Html.LabelFor(x => x.HakBaslik)</td>
+                <td>@Html.TextBoxFor(x => x.HakBaslik)</td>
+            </tr>
+            <tr>
+                <td>@Html.LabelFor(x => x.HakIcerik)</td>
+                <td>
+                    @Html.TextAreaFor(x => x.HakIcerik)
+                    <script>
+                        CKEDITOR.replace('HakIcerik', { htmlEncodeOutput: true });
+                    </script>
+                </td>
+            </tr>
+            <tr>
+                <td>@Html.LabelFor(x=>x.HakAktiflik)</td>
+                <td>@Html.CheckBoxFor(x=>x.HakAktiflik)</td>
+            </tr>
+            <tr>
+                <td></td>
+                <td><input type="submit" name="btnHakEkle" value="Kaydet" /></td>
+            </tr>
+        </thead>
+    </table>
+}

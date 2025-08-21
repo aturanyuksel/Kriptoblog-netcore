@@ -1,0 +1,284 @@
+﻿@model HaberCl
+@using Haber.COM;
+@{ ViewBag.Title = Model.HaberBaslik + " Haberi";
+                Layout = "~/Views/Shared/_Layout.cshtml"; }
+
+<script src="~/Content/ckeditor/ckeditor/ckeditor.js"></script>
+
+@section haberDetay{
+    <div class="single_page">
+        <ol class="breadcrumb">
+            <li>@Html.ActionLink("Anasayfa", "Index", "Home")</li>
+            <li>@Html.ActionLink(Model.HaberKategori.KategoriAdi, "Kategori", new { id = Model.HaberKategori.KategoriID })</li>
+            <li class="active">@Html.ActionLink(Model.HaberBaslik, "HaberDetay", new { id = Model.HaberID })</li>
+        </ol>
+        <h1>@Model.HaberBaslik.ToUpper()</h1>
+
+        <div class="content" margin="5px">
+            <div class="single_page_content">
+                @if (Model.HaberResimleri == null || Model.HaberResimleri.Count == 0)
+                {
+
+                }
+                else
+                {
+        <img class="img-center" src="~/HaberResimler/Galeri/@Model.HaberResimleri[0].ResimAdi" alt="Resim1" style="width:100%;height:300px;" />}
+                <p>@Html.Raw(Model.HaberIcerik)</p>
+
+                @if (Model.HaberResimleri.Count == 2)
+                {
+        <img class="img-center" src="~/HaberResimler/Galeri/@Model.HaberResimleri[1].ResimAdi" alt="Resim2" style="width:100%;height:300px;" /> }
+                        else if (Model.HaberResimleri.Count == 3)
+                        {
+        <img class="img-center" src="~/HaberResimler/Galeri/@Model.HaberResimleri[2].ResimAdi" alt="Resim2" style="width:100%;height:300px;" />                }
+
+
+                @foreach (var etiket in Model.HaberEtiketleri)
+                {
+        <a href="~/Home/Etiket/@etiket.EtiketAdi"><button class="btn default-btn">@etiket.EtiketAdi</button></a>}
+
+            </div>
+        </div>
+        <div class="post_commentbox">
+            <a href="~/Home/Yazar/@Model.HaberYazari.YazarID"><i class="fa fa-user"></i><h2>@Model.HaberYazari.YazarAdSoyad</h2></a>
+            <span><i class="fa fa-calendar"></i>@Model.HaberGirisTarihi</span>
+            <a href="~/Home/Kategori/@Model.HaberKategori.KategoriID"><i class="fa fa-tags"></i>@Model.HaberKategori.KategoriAdi</a>
+            <a href="#"><i class="fa fa-eye"></i>@Model.HaberOkunmaSayisi</a>
+            <a href="~/Home/HaberDetay/@Model.HaberID#yorumlar"><i class="fa fa-tags"></i>Yorumlar</a>
+        </div>
+        @*<div class="related_post">
+            <h2>Benzer Haberler</h2>
+            <ul class="spost_nav wow fadeInDown animated">
+                @{ var benzerHaberListesi = (List<HaberCl>)ViewBag.benzerhaberler;
+
+                                    foreach (var haber in benzerHaberListesi.Take(3))
+                                    {
+                                        if (haber.HaberResimleri.Count == 0 || haber.HaberResimleri == null)
+                                        {
+                    <li>
+                        <div class="media">
+                            <a class="media-left" href="">
+                                <img src="" alt="Resim yok">
+                            </a>
+                            <div class="media-body">
+                                <a class="catg_title" href="~/Home/HaberDetay/@haber.HaberID">@haber.HaberBaslik</a>
+                            </div>
+                        </div>
+                    </li> }
+                                        else
+                                        {
+                    <li>
+                        <div class="media">
+                            <a>
+                                <img src="~/HaberResimler/Galeri/@haber.HaberResimleri[0].ResimAdi" alt="img" style="width:100%;height:300px;">
+                            </a>
+                            <div class="media-body">
+                                <a class="catg_title" href="~/Home/HaberDetay/@haber.HaberID">@haber.HaberBaslik</a>
+                            </div>
+                        </div>
+                    </li> }
+                                    } }
+            </ul>
+        </div>*@
+        <div class="related_post2">
+            <h2>Yorum Yap</h2>
+
+            @using (Html.BeginForm())
+            {
+                if (User.Identity.IsAuthenticated)
+                {
+<input type="hidden" class="form-control" placeholder="Adınız" name="txtName" id="txtName" value="@User.Identity.Name" required /> }
+                    else
+                    {
+<input type="text" disabled class="form-control" placeholder="Adınız" name="txtName" id="txtName" value="Misafir" required /> }
+                    int id = Model.HaberID;
+
+<textarea class="form-control" name="txtYorum" id="txtYorum" placeholder="Yorumunuz" title="Yorum yazınız." required></textarea>
+                    <input type="submit" class="btn btn-primary" name="txtYorumGonder" value="Yorum Ekle" />}
+        </div>
+
+        @{ var result = Model.Yorumlar;
+                            var result2 = (from p in result
+                                           where p.YorumDurumu == true
+                                           orderby p.YorumYazmaTarihi descending
+                                           select p).ToList();
+
+
+            <style>
+                .thumbnail {
+                    padding: 0px;
+                }
+
+                .panel {
+                    position: relative;
+                }
+
+                    .panel > .panel-heading:after, .panel > .panel-heading:before {
+                        position: absolute;
+                        top: 11px;
+                        left: -16px;
+                        right: 100%;
+                        width: 0;
+                        height: 0;
+                        display: block;
+                        content: " ";
+                        border-color: transparent;
+                        border-style: solid solid outset;
+                        pointer-events: none;
+                    }
+
+                    .panel > .panel-heading:after {
+                        border-width: 7px;
+                        border-right-color: #f7f7f7;
+                        margin-top: 1px;
+                        margin-left: 2px;
+                    }
+
+                    .panel > .panel-heading:before {
+                        border-right-color: #ddd;
+                        border-width: 8px;
+                    }
+            </style>
+
+
+                            <div class="container">
+                                <div class="row">
+                                    <!-- /col-sm-12 -->
+                                </div><!-- /row -->
+                                <div class="row" id="yorumlar">
+
+                                    @foreach (var yorum in result2)
+                                    {
+                                        var yorumIdAl = "yorum" + yorum.YorumID.ToString();
+                                        var yorumId2 = yorum.YorumHaberi.HaberID + "#yorum" + yorum.YorumID;
+                    <div class="col-sm-2 col-md-2 col-lg-2">
+                        <div class="thumbnail">
+                            <img class="img-responsive user-photo" src="https://ssl.gstatic.com/accounts/ui/avatar_2x.png" width="70px" height="70px">
+                        </div><!-- /thumbnail -->
+                    </div><!-- /col-sm-1 -->
+                                        <div class="col-sm-10 col-md-10 col-lg-10">
+                                            <div class="panel panel-default">
+                                                <div class="panel-heading" id="@yorumIdAl">
+                                                    <strong>@yorum.YorumYazari</strong><span class="text-muted">@yorum.YorumYazmaTarihi.ToShortDateString() - @yorum.YorumYazmaTarihi.ToShortTimeString()</span>  <a href="~/Home/HaberDetay/@yorumId2"><span class="text-primary" style="color:#689F38">#@yorumIdAl</span></a>
+                                                </div>
+
+                                                <div class="panel-body">
+                                                    @Html.Raw(yorum.YorumIcerik)
+                                                    <br />
+                                                    <hr />
+                                                    <br />
+                                                </div><!-- /panel-body -->
+                                            </div><!-- /panel panel-default -->
+                                        </div><!-- /col-sm-5 -->}
+                                </div><!-- /container -->
+                            </div> }
+
+    </div>
+
+}
+
+
+
+
+@section sonHaberlerkucuk{
+    <div class="latest_newsarea">
+        <span>Son Haberler</span>
+        <ul id="ticker01" class="news_sticker">
+            @foreach (var haber in (List<Haber.COM.HaberCl>)ViewBag.haberler)
+            {
+                if (haber.HaberResimleri == null || haber.HaberResimleri.Count == 0)
+                {
+<li><a href="~/Home/HaberDetay/@haber.HaberID"><img src="" alt="">@haber.HaberBaslik</a></li> }
+                    else
+                    {
+                        if (haber.HaberResimleri.Count > 0)
+                        {
+
+<li><a href="~/Home/HaberDetay/@haber.HaberID"><img src="~/HaberResimler/Galeri/@haber.HaberResimleri[0].ResimAdi" alt="">@haber.HaberBaslik</a></li>}
+                    }
+
+
+                }
+
+
+
+        </ul>
+
+    </div>
+}
+
+
+@section EnCokOkunanlar{
+    <div class="single_sidebar">
+        <h2><span>En Çok Okunanlar</span></h2>
+        <ul class="spost_nav">
+            @{ foreach (var haber in (List<HaberCl>)ViewBag.enCokOkunanlarListesi)
+                                {
+                                    if (haber.HaberResimleri == null || haber.HaberResimleri.Count == 0)
+                                    {
+                <li>
+                    <div class="media wow fadeInDown">
+                        <a href="#" class="media-left">
+                            <img alt="Resim yok" src="">
+                        </a>
+                        <div class="media-body">
+                            <a href="~/Home/HaberDetay/@haber.HaberID" class="catg_title">@haber.HaberBaslik</a>
+                        </div>
+                    </div>
+                </li> }
+                                    else
+                                    {
+                <li>
+                    <div class="media wow fadeInDown">
+                        <a href="~/HaberResimler/Galeri/@haber.HaberResimleri[0].ResimAdi" class="media-left">
+                            <img alt="img" src="~/HaberResimler/Galeri/@haber.HaberResimleri[0].ResimAdi">
+                        </a>
+                        <div class="media-body">
+                            <a href="~/Home/HaberDetay/@haber.HaberID" class="catg_title">@haber.HaberBaslik</a>
+                        </div>
+                    </div>
+                </li> }
+                                } }
+
+        </ul>
+    </div>
+
+}
+
+
+@section FooterEtiketleri{
+
+    @{ foreach (var etiket in (IEnumerable<EtiketSonuc>)ViewBag.etiketResult2)
+                        {
+                            int a = etiket.EticketSonucSayisi;
+                            string buyukluk = "";
+                            if (a == 1)
+                            {
+                                buyukluk = "cokdusuk";
+                            }
+                            else if (a >= 2 && a <= 4)
+                            {
+                                buyukluk = "dusuk";
+                            }
+                            else if (a > 4 && a <= 7)
+                            {
+                                buyukluk = "orta";
+                            }
+                            else if (a > 7 && a <= 10)
+                            {
+                                buyukluk = "buyuk";
+                            }
+                            else
+                            {
+                                buyukluk = "cokbuyuk";
+                            }
+                            switch (buyukluk)
+                            {
+
+                                case "cokdusuk":
+        <li style="font-size:16px; display:inline">#@etiket.EtiketSonucAdi</li> break;
+}
+} }
+
+
+}
